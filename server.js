@@ -10,9 +10,10 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/orders", (req, res) => {
+app.get("/cors", (req, res) => {
+  var url = req.query.url
   request(
-    { url: "http://pickrr.herokuapp.com/fetch-shop-orders/harish-30/?days=10" },
+    { url: url },
     (error, response, body) => {
       if (error || response.statusCode !== 200) {
         return res.status(500).json({ type: "error", message: error });
