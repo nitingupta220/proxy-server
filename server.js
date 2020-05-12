@@ -5,7 +5,7 @@ const responseTime = require("response-time");
 const redis = require("redis");
 
 const PORT = process.env.PORT || 3005;
-
+  
 const app = express();
 // create and connect redis client to local instance
 const client = redis.createClient({
