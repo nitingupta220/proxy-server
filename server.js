@@ -5,12 +5,16 @@ const responseTime = require("response-time");
 const redis = require("redis");
 
 const PORT = process.env.PORT || 3005;
-  
+
+const url =
+  "redis://h:pf86dc120b9a8253ee6a4a19580889893f8ae06dae26496d9ab2278063cd5372a@ec2-3-95-115-105.compute-1.amazonaws.com:16739";
+
 const app = express();
 // create and connect redis client to local instance
-const client = redis.createClient({
-  url:
-    "redis://h:pf86dc120b9a8253ee6a4a19580889893f8ae06dae26496d9ab2278063cd5372a@ec2-3-95-115-105.compute-1.amazonaws.com:16739",
+const client = redis.createClient(process.env.REDIS_URL);
+
+client.on("error", (err) => {
+  console.log(`Error, ${err}`);
 });
 
 app.use(cors());
@@ -19,6 +23,10 @@ app.use(responseTime());
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   next();
+});
+
+app.get("/", (req, res) => {
+  res.send(`Welcome to the Proxy Server`);
 });
 
 app.get("/cors", (req, res) => {
